@@ -52,7 +52,10 @@
 
 import polars as pl
 import time
-from rag.search_popularity import search_movies
+#from rag.search_popularity import search_movies
+from chatgpt.rrf import search_rrf_pipeline as search_movies 
+
+
 
 def calculate_metrics(ground_truth_path: str, top_n: int = 5):
     # 1. Load Ground Truth with Polars
@@ -112,7 +115,7 @@ if __name__ == "__main__":
     GT_PATH = "/workspaces/movie-recommender-assistant/data/ground_truth.csv"
     
     # You can set top_n=10 or 30 depending on how strict you want to be
-    TOP_K = 10
+    TOP_K = 20
     hr, mrr = calculate_metrics(GT_PATH, top_n=TOP_K)
     
     print("\n" + "="*40)

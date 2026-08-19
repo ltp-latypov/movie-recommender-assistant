@@ -30,10 +30,10 @@ es = Elasticsearch(
    retry_on_timeout=True
 )
 
-client = OpenAI(
-    api_key=os.getenv("GROQ_API_KEY"), 
-    base_url="https://api.groq.com/openai/v1"
-)
+# client = OpenAI(
+#     api_key=os.getenv("GROQ_API_KEY"), 
+#     base_url="https://api.groq.com/openai/v1"
+# )
 
 # ============================================================
 # HYBRID SEARCH WITH POPULARITY BOOST

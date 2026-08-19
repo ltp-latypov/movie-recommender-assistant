@@ -10,6 +10,7 @@ client = OpenAI(
     base_url="https://api.groq.com/openai/v1"
 )
 
+
 def generate_recommendation(user_query: str, search_results: list):
     """
     Takes the top search results and generates a conversational AI response.
@@ -53,7 +54,6 @@ def generate_recommendation(user_query: str, search_results: list):
 
     response = client.chat.completions.create(
         model="openai/gpt-oss-120b",
-        #model = "openai/gpt-oss-safeguard-20b",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -62,3 +62,46 @@ def generate_recommendation(user_query: str, search_results: list):
     )
 
     return response.choices[0].message.content
+
+# import os
+# from google import genai
+# from dotenv import load_dotenv
+
+# load_dotenv()
+# client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+# def generate_recommendation(user_query: str, search_results: list):
+#     if not search_results:
+#         return "I'm sorry, I couldn't find any movies matching your request."
+
+#     context = ""
+#     # Only take top 8 to stay safe with token limits and keep response fast
+#     for movie in search_results[:8]:
+#         context += f"Title: {movie['title']}\n"
+#         context += f"Plot: {movie.get('overview', 'N/A')}\n"
+#         context += f"Poster URL: {movie.get('poster_url', 'N/A')}\n"
+#         context += f"Movie Link: {movie.get('movie_link', 'N/A')}\n"
+#         context += "------------------\n"
+
+#     prompt = f"""
+#     You are a professional movie critic. 
+#     IMPORTANT: You may ONLY recommend movies provided in the "Movie Context" below.
+    
+#     USER REQUEST: {user_query}
+#     MOVIE CONTEXT:
+#     {context}
+
+#     INSTRUCTIONS:
+#     1. Explain WHY you are recommending these movies based on the plot.
+#     2. Format the title as a clickable Markdown link: [Title](Movie Link)
+#     3. Display the poster image using Markdown: ![poster](Poster URL)
+#     """
+
+#     try:
+#         response = client.models.generate_content(
+#             model="gemini-1.5-flash",
+#             contents=prompt
+#         )
+#         return response.text
+#     except Exception as e:
+#         return f"Error generating recommendation: {str(e)}"
